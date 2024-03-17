@@ -1,0 +1,13 @@
+[project]
+name = "TheProtocols"
+version = "3.0"
+description = "Official TheProtocols SDK for Python3"
+maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
+license = {text = "LGPL-2.1"}
+readme = "README.md"
+requires-python = ">=3.9"
+
+
+[build-system]
+requires = ["setuptools","wheel"]
+build-backend = "setuptools.build_meta"
