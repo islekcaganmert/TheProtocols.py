@@ -36,7 +36,7 @@ class Token:
             d = r.json()
             if d['version'] == v:
                 self.__exchange = d['exchange']
-        return int(self.__exchange)
+        return float(self.__exchange)
 
     def get_balance(self, user=None) -> int:
         if user is None:
