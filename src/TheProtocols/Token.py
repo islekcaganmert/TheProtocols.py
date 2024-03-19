@@ -55,7 +55,7 @@ class Token:
     def transfer(self, receiver: User, amount: int) -> bool:
         r = requests.post(f"https://{aas.get(self.__addr)}/protocols/token/balance", json={
             'private_key': self.__id.id.chamychain_private_key,
-            'receiver': receiver.chamychain_private_key,
+            'receiver': receiver.chamychain_public_key,
             'amount': amount
         })
         return r.status_code == 200
