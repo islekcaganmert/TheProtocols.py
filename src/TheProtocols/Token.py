@@ -40,9 +40,9 @@ class Token:
 
     def get_balance(self, user=None) -> int:
         if user is None:
-            user = self.__id
+            user = self.__id.id
         r = requests.post(f"https://{aas.get(self.__addr)}/protocols/token/balance", json={
-            'public_key': user.id.chamychain_public_key
+            'public_key': user.chamychain_public_key
         })
         if r.status_code == 200:
             try:
