@@ -117,7 +117,7 @@ class Network(Struct):
             raise ValueError('Invalid username')
         t = country
         for i in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-            t.replace(i, '')
+            t = t.replace(i, '')
         if t != '' or len(country) != 2:
             raise ValueError('Invalid country code')
         try:
