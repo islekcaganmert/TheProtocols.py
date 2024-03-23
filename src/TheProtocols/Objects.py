@@ -112,7 +112,7 @@ class Network(Struct):
                        ) -> bool:
         t = username
         for i in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-':
-            t.replace(i, '')
+            t = t.replace(i, '')
         if t != '':
             raise ValueError('Invalid username')
         t = country
