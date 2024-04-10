@@ -79,6 +79,7 @@ class ID:
                 if not s:
                     s = Post(self, i['id'])
                     add_to_cache(s)
+                d.append(s)
             return d
         else:
             return []
