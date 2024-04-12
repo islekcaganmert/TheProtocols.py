@@ -47,7 +47,7 @@ class Reminders:
             return False
 
     def create_list(self, name: str) -> bool:
-        r = self.id.request('create_reminder_lisr', list=name)
+        r = self.id.request('create_reminder_list', list=name)
         if r.status_code == 200:
             self.__init__(self.id)
             return True
