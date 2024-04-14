@@ -5,7 +5,6 @@ description = "Official TheProtocols SDK for Python3"
 maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
 license = {text = "LGPL-2.1"}
 readme = "README.md"
-requires = ["requests"]
 requires-python = ">=3.9"
 
 
