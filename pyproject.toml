@@ -1,6 +1,6 @@
 [project]
 name = "TheProtocols"
-version = "3.0"
+version = "3.0.1"
 description = "Official TheProtocols SDK for Python3"
 maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
 license = {text = "LGPL-2.1"}
