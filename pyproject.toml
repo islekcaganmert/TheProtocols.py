@@ -1,12 +1,15 @@
 [project]
 name = "TheProtocols"
-version = "3.0.1"
+version = "3.1.0"
 description = "Official TheProtocols SDK for Python3"
-maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
-license = {text = "LGPL-2.1"}
 readme = "README.md"
-requires-python = ">=3.9"
+license = {text = "LGPL-3.0"}
+maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
+requires-python = ">= 3.9"
+dependencies = ["certifi==2024.2.2", "charset-normalizer==3.3.2", "idna==3.7", "requests==2.31.0", "urllib3==2.2.1"]
 
+[project.urls]
+Homepage = "https://github.com/islekcaganmert/TheProtocols.py"
 
 [build-system]
 requires = ["setuptools","wheel"]
