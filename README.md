@@ -11,9 +11,12 @@ Please [email me](mailto:islekcaganmert@hereus.net) for have your app listed in 
 
 ### Installing
 
-*Not available for now*
+pip: 
+```bash
+pip install TheProtocols
+```
 
-### Quick Start
-
-*Not available for now*
-
+pymake: 
+```bash
+pymake install TheProtocols
+```

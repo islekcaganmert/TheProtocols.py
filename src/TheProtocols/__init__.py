@@ -1,14 +1,7 @@
-# noinspection PyUnresolvedReferences
-from .Helpers.Exceptions import TokenException, NetworkException, NoteNotFound, CredentialsDidntWorked
-# noinspection PyUnresolvedReferences
-from .ID import ID
-# noinspection PyUnresolvedReferences
-from .Notes import Notes
-# noinspection PyUnresolvedReferences
-from .Objects import Chat, Contact, Deleted, Mail, Message, Network, Post, Reminder, Resource, Struct, SubReminder, User
-# noinspection PyUnresolvedReferences
-from .Reminders import Reminders
-# noinspection PyUnresolvedReferences
-from .Storage import Storage
-# noinspection PyUnresolvedReferences
-from .Token import Token
+from TheProtocols.helpers.version import __version__
+from TheProtocols.objects.network import Network, MembershipPlan, OS, Rules, Software
+from TheProtocols.objects.user import User
+from TheProtocols.session import Session
+from TheProtocols.theprotocols import TheProtocols, Permission
+from TheProtocols.objects.app import App
+from TheProtocols.objects.deleted import Deleted

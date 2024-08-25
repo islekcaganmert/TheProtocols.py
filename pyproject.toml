@@ -6,7 +6,7 @@ readme = "README.md"
 license = {text = "LGPL-3.0"}
 maintainers = [{name = "Çağan Mert İŞLEK", email = "islekcaganmert@hereus.net"}]
 requires-python = ">= 3.9"
-dependencies = ["certifi==2024.2.2", "charset-normalizer==3.3.2", "idna==3.7", "requests==2.31.0", "urllib3==2.2.1"]
+dependencies = ["charset-normalizer==3.3.2", "idna==3.7", "certifi==2024.7.4", "requests==2.32.3", "urllib3==2.2.2", "cffi==1.17.0", "cryptography==43.0.0", "pycparser==2.22"]
 
 [project.urls]
 Homepage = "https://github.com/islekcaganmert/TheProtocols.py"
