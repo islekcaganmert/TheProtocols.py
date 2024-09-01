@@ -7,4 +7,6 @@ from TheProtocols.objects.resource import Resource
 from TheProtocols.objects.storage import Storage
 from TheProtocols.objects.user import User
 from TheProtocols.session import Session
-from TheProtocols.theprotocols import TheProtocols
+from TheProtocols.theprotocols import TheProtocols, Permission
+from TheProtocols.objects.notes import Notes
+from TheProtocols.objects.reminders import Reminders

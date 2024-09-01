@@ -122,10 +122,8 @@ class Session:
     # 1. Chats
     # 2. Mail
     # 3. Feed
-    # 4. Notes
     # 5. Reminders
-    # 6. Storage
-    # 7. Token
+    # 6. Token
 
     def __str__(self) -> str:
         return self.__email
