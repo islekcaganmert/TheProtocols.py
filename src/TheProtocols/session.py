@@ -2,6 +2,8 @@ import requests
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+
+from TheProtocols.objects.mail import Mailbox
 from TheProtocols.objects.network import Network
 from TheProtocols.objects.user import User as UserObject
 from TheProtocols.objects.app import App
@@ -143,11 +145,31 @@ class Session:
         else:
             return []
 
+    def get_mailboxes(self) -> list[Mailbox]:
+        r = self.request('list_mailboxes')
+        if r.status_code == 200:
+            return [Mailbox(self, i) for i in r.json()['mailboxes']]
+        else:
+            return []
+
+    def send_mail(
+            self,
+            to: str,
+            cc: str = '',
+            bcc: str = '',
+            subject: str = 'No Subject',
+            body: str = '',
+            hashtag: str = ''
+    ) -> bool:
+        r = self.request('send_mail', subject=subject, body=body, to=to, cc=cc, bcc=bcc, hashtag=hashtag)
+        if r.status_code == 200:
+            return True
+        else:
+            return False
+
     #    To Do List
     # 1. Chats
-    # 2. Mail
-    # 3. Reminders
-    # 4. Token
+    # 2. Token
 
     def __str__(self) -> str:
         return self.__email
