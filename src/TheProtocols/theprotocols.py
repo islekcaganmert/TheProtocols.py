@@ -45,6 +45,7 @@ class TheProtocols(App):
         super().__init__(package_name, secure)
         self.application_token = application_token
         self.permissions = permissions
+        self.__cache = []
 
     def create_session(self, email, password) -> (Session, None):
         r = Session(self, email, password)
@@ -52,3 +53,11 @@ class TheProtocols(App):
             return None
         else:
             return r
+
+    def get_cached(self, obj, key, value, s):
+        for i in self.__cache:
+            if isinstance(i, obj):
+                if getattr(i, key) == value:
+                    return i
+        self.__cache.append(obj(**{key: value, 's': s}))
+        return self.__cache[-1]

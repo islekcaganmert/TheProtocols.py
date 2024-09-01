@@ -8,6 +8,20 @@ from TheProtocols.objects.app import App
 from TheProtocols.objects.resource import Resource
 
 
+class Post:
+    def __init__(self, s, id) -> None:
+        self.id = id
+        resp = s.request('get_feed_post', id=id)
+        if resp.status_code == 200:
+            self.title = resp.json()['title']
+            self.content = resp.json()['content']
+            self.datetime = resp.json()['datetime']
+        else:
+            self.title = None
+            self.content = None
+            self.datetime = None
+
+
 class User:
     def __init__(self, s) -> None:
         self.__email = lambda: str(s)
@@ -118,12 +132,22 @@ class Session:
         else:
             return []
 
+    def feed(self) -> list[Post]:
+        r = self.request('get_feed')
+        if r.status_code == 200:
+            d = []
+            for i in r.json()['feed']:
+                s = self.__app.get_cached(Post, 'id', i['id'], s=self)
+                d.append(s)
+            return d
+        else:
+            return []
+
     #    To Do List
     # 1. Chats
     # 2. Mail
-    # 3. Feed
-    # 5. Reminders
-    # 6. Token
+    # 3. Reminders
+    # 4. Token
 
     def __str__(self) -> str:
         return self.__email
