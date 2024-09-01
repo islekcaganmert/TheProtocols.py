@@ -10,3 +10,6 @@ from TheProtocols.session import Session, Post
 from TheProtocols.theprotocols import TheProtocols, Permission
 from TheProtocols.objects.notes import Notes
 from TheProtocols.objects.reminders import Reminders
+from TheProtocols.objects.chat import Chat, Message
+from TheProtocols.objects.token import Token
+from TheProtocols.objects.mail import Mailbox, Mail

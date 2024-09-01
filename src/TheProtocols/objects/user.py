@@ -7,6 +7,10 @@ from TheProtocols.objects.network import Network
 from TheProtocols.objects.deleted import Deleted
 
 
+def get_if_not_hidden(val):
+    return val if str(val).replace('*', '') != '' else None
+
+
 class User:
     def __init__(self, email: str, fetch_as=None, secure: bool = True) -> None:
         self.__email = lambda: email
@@ -15,17 +19,17 @@ class User:
         self.rsa_private_key = None
         if r.status_code == 200:
             d = r.json()
-            self.name = d['name']
-            self.surname = d['surname']
-            self.country = d['country']
-            self.birthday = d['birthday']
-            self.rsa_public_key = d['rsa_public_key']
-            self.gender = d['gender']
-            self.phone_number = d['phone_number']
-            self.plus = d['plus']
-            self.timezone = d['timezone']
-            self.postcode = d['postcode']
-            self.profile_photo = d['profile_photo']
+            self.name = get_if_not_hidden(d['name'])
+            self.surname = get_if_not_hidden(d['surname'])
+            self.country = get_if_not_hidden(d['country'])
+            self.birthday = get_if_not_hidden(d['birthday'])
+            self.rsa_public_key = get_if_not_hidden(d['rsa_public_key'])
+            self.gender = get_if_not_hidden(d['gender'])
+            self.phone_number = get_if_not_hidden(d['phone_number'])
+            self.plus = get_if_not_hidden(d['plus'])
+            self.timezone = get_if_not_hidden(d['timezone'])
+            self.postcode = get_if_not_hidden(d['postcode'])
+            self.profile_photo = get_if_not_hidden(d['profile_photo'])
             self.relation = ''
             self.socials = []
             self.fetch_as = fetch_as

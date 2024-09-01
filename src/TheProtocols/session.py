@@ -1,3 +1,5 @@
+import json
+
 import requests
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
@@ -8,6 +10,7 @@ from TheProtocols.objects.network import Network
 from TheProtocols.objects.user import User as UserObject
 from TheProtocols.objects.app import App
 from TheProtocols.objects.resource import Resource
+from TheProtocols.objects.chat import Chat
 
 
 class Post:
@@ -167,9 +170,30 @@ class Session:
         else:
             return False
 
-    #    To Do List
-    # 1. Chats
-    # 2. Token
+    def list_chats(self) -> dict[str, (Chat, type)]:
+        r = self.request('list_chats')
+        if r.status_code == 200:
+            d: dict = r.json()['chats']
+            return {str(i): type('Chat', (), {
+                "last_index": d[i]['last_index'],
+                "image": d[i]['image'],
+                "title": d[i]['title'],
+                "participants": d[i]['participants'],
+                "__id": i,
+                "__session": self,
+                "__init__": Chat.__init__,
+                "get_message": Chat.get_message,
+                "send_message": Chat.send_message
+            }) for i in d}
+        else:
+            return {}
+
+    def create_chat(self, title: str, image: str, participants: list[str]) -> bool:
+        return self.request('send_message', chat="/", body=json.dumps({
+            "image": image,
+            "title": title,
+            "participants": participants
+        })).status_code == 200
 
     def __str__(self) -> str:
         return self.__email
