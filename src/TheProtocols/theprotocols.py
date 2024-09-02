@@ -54,6 +54,9 @@ class TheProtocols(App):
         else:
             return r
 
+    def restore_session(self, email, token) -> (Session, None):
+        return Session(self, email, None, token=token)
+
     def get_cached(self, obj, key, value, s):
         for i in self.__cache:
             if isinstance(i, obj):

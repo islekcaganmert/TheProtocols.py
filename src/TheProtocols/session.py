@@ -54,27 +54,33 @@ class User:
 
 
 class Session:
-    def __init__(self, app, email, password) -> None:
+    def __init__(self, app, email, password, token=None) -> None:
         self.__email = email
         self.__password = password
         self.__app = app
         self.network = Network(email.split('@')[1], secure=app.secure)
-        if 3.0 <= self.network.version < 3.1:
-            self.id = User(self)
-            self.token = None
-        else:
-            r = requests.post(self.network.protocol('login'), json={
-                'username': email.split('@')[0],
-                'password': password,
-                'package': app.package_name,
-                'signature': app.application_token,
-                'permissions': app.permissions
-            })
-            if r.status_code == 200:
-                self.token = r.json()['token']
+        if isinstance(password, str) and token is None:
+            if 3.0 <= self.network.version < 3.1:
                 self.id = User(self)
-            else:
                 self.token = None
+            else:
+                r = requests.post(self.network.protocol('login'), json={
+                    'username': email.split('@')[0],
+                    'password': password,
+                    'package': app.package_name,
+                    'signature': app.application_token,
+                    'permissions': app.permissions
+                })
+                if r.status_code == 200:
+                    self.token = r.json()['token']
+                    self.id = User(self)
+                else:
+                    self.token = None
+        elif isinstance(token, str):
+            self.token = token
+            self.id = User(self)
+        else:
+            raise AttributeError('Password or Token must be provided')
 
     def request(self, endpoint, **kwargs) -> requests.Response:
         data = {i: kwargs[i] for i in kwargs}
