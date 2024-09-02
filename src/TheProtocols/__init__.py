@@ -13,3 +13,4 @@ from TheProtocols.objects.reminders import Reminders
 from TheProtocols.objects.chat import Chat, Message
 from TheProtocols.objects.token import Token
 from TheProtocols.objects.mail import Mailbox, Mail
+from TheProtocols.objects.calendar import Calendar, Event, Location
