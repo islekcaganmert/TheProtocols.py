@@ -89,7 +89,7 @@ class Network:
                     MembershipPlan("Plus", 0)
                 ]
         else:
-            raise NetworkException("Network is not available")
+            raise NetworkException(f"Network is not available: {r.status_code}")
 
     def __str__(self) -> str:
         return self.addr

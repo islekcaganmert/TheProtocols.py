@@ -5,12 +5,39 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
+from TheProtocols.helpers.exceptions import CredentialsDidntWorked
 from TheProtocols.objects.mail import Mailbox
 from TheProtocols.objects.network import Network
 from TheProtocols.objects.user import User as UserObject
 from TheProtocols.objects.app import App
 from TheProtocols.objects.resource import Resource
 from TheProtocols.objects.chat import Chat
+
+
+class DynamicObject:
+    def __init__(self, d: dict) -> None:
+        self.__dict__['_attributes'] = {}
+        for i in d:
+            self.__dict__['_attributes'][i] = d[i]
+
+    def __getattr__(self, name):
+        if name in self._attributes:
+            if isinstance(self._attributes[name], dict):
+                return DynamicObject(self._attributes[name])
+            return self._attributes[name]
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    def __setattr__(self, name, value):
+        self._attributes[name] = value
+
+    def __delattr__(self, name):
+        if name in self._attributes:
+            del self._attributes[name]
+        else:
+            raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self._attributes})"
 
 
 class Post:
@@ -48,6 +75,7 @@ class User:
             self.relation = 'Self'
             self.socials = []
             self.rsa_private_key = d['rsa_private_key']
+            self.settings = DynamicObject(d['settings'])
     json = UserObject.json
     __str__ = __repr__ = UserObject.__str__
     verify = UserObject.verify
@@ -68,14 +96,13 @@ class Session:
                     'username': email.split('@')[0],
                     'password': password,
                     'package': app.package_name,
-                    'signature': app.application_token,
                     'permissions': app.permissions
                 })
                 if r.status_code == 200:
                     self.token = r.json()['token']
                     self.id = User(self)
                 else:
-                    self.token = None
+                    raise CredentialsDidntWorked
         elif isinstance(token, str):
             self.token = token
             self.id = User(self)

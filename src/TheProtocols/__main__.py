@@ -12,7 +12,6 @@ def main(args: list = sys.argv[1:]):
             package_name = args[2] if len(args) > 2 else input('Package: ')
             s: Session = TheProtocols(
                 package_name=package_name,
-                application_token='',
                 permissions=["RSA"]
             ).create_session(
                 input('Email: ') if 'EMAIL' not in os.environ else os.environ.get('EMAIL'),

@@ -41,9 +41,8 @@ class Permission:
 
 
 class TheProtocols(App):
-    def __init__(self, package_name, application_token, permissions, secure: bool = True):
+    def __init__(self, package_name, permissions, secure: bool = True):
         super().__init__(package_name, secure)
-        self.application_token = application_token
         self.permissions = permissions
         self.__cache = []
 
