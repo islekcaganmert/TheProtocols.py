@@ -17,6 +17,7 @@ class User:
         self.network = Network(email.split('@')[1], secure=secure)
         r = requests.get(self.network.protocol("user_info"), json={'username': email.split('@')[0]})
         self.rsa_private_key = None
+        self.settings = {}
         if r.status_code == 200:
             d = r.json()
             self.name = get_if_not_hidden(d['name'])
@@ -97,3 +98,7 @@ class User:
             return False
 
     __repr__ = __str__
+
+    @property
+    def email(self) -> str:
+        return self.__email()

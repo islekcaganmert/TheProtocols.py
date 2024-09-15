@@ -24,6 +24,4 @@ pymake install TheProtocols
 ### To-do
 
  - [ ] Cloud Storage
- - [ ] Calendar
- - [ ] Sign up
  - [ ] IoT

@@ -1,3 +1,4 @@
+from TheProtocols.helpers.exceptions import CredentialsDidntWorked
 from TheProtocols.objects.app import App
 from TheProtocols.session import Session
 
@@ -47,11 +48,14 @@ class TheProtocols(App):
         self.__cache = []
 
     def create_session(self, email, password) -> (Session, None):
-        r = Session(self, email, password)
-        if r.token is None and r.network.version >= 3.1:
+        try:
+            r = Session(self, email, password)
+            if r.token is None and r.network.version >= 3.1:
+                return None
+            else:
+                return r
+        except CredentialsDidntWorked:
             return None
-        else:
-            return r
 
     def restore_session(self, email, token) -> (Session, None):
         return Session(self, email, None, token=token)

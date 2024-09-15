@@ -1,4 +1,5 @@
 from datetime import datetime
+from TheProtocols.objects.deleted import Deleted
 
 
 class Location:
@@ -30,8 +31,8 @@ class Event:
         return self.name
     __repr__ = __str__
 
-    def save(self):
-        self.__session.request(
+    def save(self) -> bool:
+        return self.__session.request(
             'edit_event',
             id=self.id,
             object={
@@ -53,7 +54,26 @@ class Event:
                 'url': self.url,
                 'attachments': self.attachments
             }
-        )
+        ).status_code == 200
+
+    def delete(self):
+        if self.__session.request(
+            'edit_event',
+            id=self.id,
+            object=Deleted
+        ).status_code == 200:
+            self.id = None
+            self.name = None
+            self.starts = None
+            self.ends = None
+            self.location = None
+            self.alerts = None
+            self.repeat = None
+            self.travel_time = None
+            self.participants = None
+            self.notes = None
+            self.url = None
+            self.attachments = None
 
 
 class Calendar:

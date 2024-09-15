@@ -184,7 +184,8 @@ class Session:
     def get_mailboxes(self) -> list[Mailbox]:
         r = self.request('list_mailboxes')
         if r.status_code == 200:
-            return [Mailbox(self, i) for i in r.json()['mailboxes']]
+            d = r.json()
+            return [Mailbox(self, i, d[i]) for i in d]
         else:
             return []
 
@@ -227,6 +228,16 @@ class Session:
             "title": title,
             "participants": participants
         })).status_code == 200
+
+    def list_contacts(self) -> list[User]:
+        r = self.request('list_contacts')
+        if r.status_code == 200:
+            d = []
+            for i in r.json():
+                d.append(UserObject(i, self, self.__app.secure))
+            return d
+        else:
+            return []
 
     def __str__(self) -> str:
         return self.__email

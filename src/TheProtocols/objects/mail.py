@@ -41,32 +41,36 @@ class Mail:
     def archive(self) -> bool:
         return self.move('Archive')
 
+    def __str__(self):
+        return str(self.__id)
+    __repr__ = __str__
+
+    @property
+    def mailbox(self) -> str:
+        return self.__mailbox
+
 
 class Mailbox:
-    def __init__(self, session, name: str, mlist: dict[str, int] = None):
+    def __init__(self, session, name: str, mlist: int = None):
         self.__session = session
         self.__name = name
         self.__mails = None
-        self.__mlist = session.request('list_mailboxes').json() if mlist is None else mlist
-        self.__mails = [Mail(self.__session, self.__name, i) for i in mlist]
+        self.sync(mlist)
 
     def __str__(self):
         return self.__name
     __repr__ = __str__
 
-    def sync(self, mlist: dict[str, int] = None):
-        if mlist is not None:
-            self.__mlist = None
-            return [Mail(self.__session, self.__name, i) for i in range(0, mlist[str(self)]+1)]
-        else:
-            resp = self.__session.request('list_mailboxes', mailbox=self.__name)
-            if resp.status_code == 200:
-                return [Mail(self.__session, self.__name, i) for i in range(0, resp.json()[str(self)]+1)]
-            else:
-                return []
+    def sync(self, mlist: int = None):
+        if mlist is None:
+            resp = self.__session.request('list_mailboxes')
+            if resp.status_code != 200:
+                return
+            mlist = resp.json()
+        if not isinstance(mlist, int):
+            mlist = mlist[str(self)]
+        self.__mails = [Mail(self.__session, self.__name, i) for i in range(0, mlist + 1)]
 
     @property
     def mails(self) -> list[Mail]:
-        if self.__mails is None:
-            self.sync(mlist=self.__mlist)
         return self.__mails

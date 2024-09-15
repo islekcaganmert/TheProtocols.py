@@ -18,7 +18,10 @@ class SubReminder:
 
 class Reminder:
     def __init__(self, d: dict) -> None:
-        self.deadline = datetime.strptime(d['deadline'], '%Y-%m-%d %H:%M')
+        try:
+            self.deadline = datetime.strptime(d['deadline'], '%Y-%m-%d %H:%M')
+        except ValueError:
+            self.deadline = None
         self.last_update_status = datetime.strptime(d['last_update_status'], '%Y-%m-%d %H:%M')
         self.repeat = d['repeat']
         self.status = d['status']
@@ -52,6 +55,10 @@ class Reminders:
                 self.__fs.update({a: []})
                 for b in d[a]:
                     self.__fs[a].append(Reminder(b))
+
+    @property
+    def lists(self) -> list[str]:
+        return list(self.__fs.keys())
 
     def get_list(self, name: str) -> list[Reminder]:
         return self.__fs[name]
