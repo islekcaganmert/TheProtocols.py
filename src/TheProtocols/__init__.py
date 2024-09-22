@@ -15,3 +15,4 @@ from TheProtocols.objects.token import Token
 from TheProtocols.objects.mail import Mailbox, Mail
 from TheProtocols.objects.calendar import Calendar, Event, Location
 from TheProtocols.objects.home import Home
+from TheProtocols.objects.photos import Photos
