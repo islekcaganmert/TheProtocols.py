@@ -5,7 +5,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from TheProtocols.helpers.exceptions import CredentialsDidntWorked
+from TheProtocols.helpers.exceptions import CredentialsDidntWorked, NetworkException
 from TheProtocols.objects.mail import Mailbox
 from TheProtocols.objects.network import Network
 from TheProtocols.objects.user import User as UserObject
@@ -234,7 +234,10 @@ class Session:
         if r.status_code == 200:
             d = []
             for i in r.json():
-                d.append(UserObject(i, self, self.__app.secure))
+                try:
+                    d.append(UserObject(i, self, self.__app.secure))
+                except NetworkException:
+                    pass
             return d
         else:
             return []

@@ -14,7 +14,7 @@ class Notes:
     def get(self, filename: str) -> str:
         r = self.fs
         try:
-            for i in filename:
+            for i in filename.split('/'):
                 if i != '':
                     r = r[i]
         except Exception as e:
@@ -33,4 +33,4 @@ class Notes:
             return False
 
     def delete(self, filename: str) -> bool:
-        return self.edit(filename, Deleted())
+        return self.edit(filename, Deleted)
