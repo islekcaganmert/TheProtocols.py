@@ -20,23 +20,23 @@ class DynamicObject:
         for i in d:
             self.__dict__['_attributes'][i] = d[i]
 
-    def __getattr__(self, name):
+    def __getattr__(self, name) -> any:
         if name in self._attributes:
             if isinstance(self._attributes[name], dict):
                 return DynamicObject(self._attributes[name])
             return self._attributes[name]
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name, value) -> None:
         self._attributes[name] = value
 
-    def __delattr__(self, name):
+    def __delattr__(self, name) -> None:
         if name in self._attributes:
             del self._attributes[name]
         else:
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self._attributes})"
 
 

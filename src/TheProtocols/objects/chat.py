@@ -2,7 +2,7 @@ from datetime import datetime, UTC
 
 
 class Message:
-    def __init__(self, s, chat, index):
+    def __init__(self, s, chat, index) -> None:
         self.__session = s
         self.__chat = chat
         self.__index = index
@@ -26,9 +26,9 @@ class Chat:
         self.title = ''
         self.participants = []
 
-    def get_message(self, index):
+    def get_message(self, index) -> Message:
         return Message(self.__session, self.__id, index)
 
-    def send_message(self, message):
+    def send_message(self, message) -> bool:
         r = self.__session.request('send_message', chat=self.__id, body=message)
         return r.status_code == 200

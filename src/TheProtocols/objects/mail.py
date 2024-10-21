@@ -41,7 +41,7 @@ class Mail:
     def archive(self) -> bool:
         return self.move('Archive')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.__id)
     __repr__ = __str__
 
@@ -57,7 +57,7 @@ class Mailbox:
         self.__mails = None
         self.sync(mlist)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__name
     __repr__ = __str__
 

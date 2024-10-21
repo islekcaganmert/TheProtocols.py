@@ -3,7 +3,7 @@ from TheProtocols.objects.deleted import Deleted
 
 
 class Location:
-    def __init__(self, data):
+    def __init__(self, data) -> None:
         self.name = data['name']
         self.street = data['street']
         self.no = data['no']
@@ -12,7 +12,7 @@ class Location:
 
 
 class Event:
-    def __init__(self, s, id, data):
+    def __init__(self, s, id, data) -> None:
         self.__session = s
         self.id = id
         self.name = data['name']
@@ -27,7 +27,7 @@ class Event:
         self.url = data['url']
         self.attachments = data['attachments']
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
     __repr__ = __str__
 
@@ -56,7 +56,7 @@ class Event:
             }
         ).status_code == 200
 
-    def delete(self):
+    def delete(self) -> None:
         if self.__session.request(
             'edit_event',
             id=self.id,
@@ -77,12 +77,12 @@ class Event:
 
 
 class Calendar:
-    def __init__(self, s):
+    def __init__(self, s) -> None:
         self.__session = s
         self.__cal: list[Event] = []
         self.__start = self.__end = None
 
-    def sync(self):
+    def sync(self) -> None:
         resp = self.__session.request(
             'list_events',
             start=self.__start.strftime('%Y-%m-%d %H:%M'),
@@ -153,7 +153,6 @@ class Calendar:
                 month if month is not None else 1,
                 day if day is not None else 1,
                 hour if hour is not None else 0,
-                0, 0
             )
             self.__end = datetime(
                 year,
@@ -217,7 +216,7 @@ class Calendar:
             }
         )
 
-    def get_event(self, id):
+    def get_event(self, id) -> (Event, None):
         for i in self.__cal:
             if i.id == id:
                 return i

@@ -1,6 +1,7 @@
 from TheProtocols.helpers.exceptions import CredentialsDidntWorked
 from TheProtocols.objects.app import App
 from TheProtocols.session import Session
+from typing import Any
 
 
 class Permission:
@@ -60,7 +61,7 @@ class TheProtocols(App):
     def restore_session(self, email, token) -> (Session, None):
         return Session(self, email, None, token=token)
 
-    def get_cached(self, obj, key, value, s):
+    def get_cached(self, obj, key, value, s) -> (Any, None):
         for i in self.__cache:
             if isinstance(i, obj):
                 if getattr(i, key) == value:

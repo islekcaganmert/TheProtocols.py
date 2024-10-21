@@ -7,7 +7,7 @@ from TheProtocols.objects.network import Network
 from TheProtocols.objects.deleted import Deleted
 
 
-def get_if_not_hidden(val):
+def get_if_not_hidden(val) -> str:
     return val if str(val).replace('*', '') != '' else None
 
 

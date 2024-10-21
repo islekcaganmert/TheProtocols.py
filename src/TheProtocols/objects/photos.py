@@ -24,7 +24,7 @@ class Album:
 
 
 class Photos:
-    def __init__(self, s):
+    def __init__(self, s) -> None:
         self._s = s
 
     def get_album(self, name: str) -> Album:

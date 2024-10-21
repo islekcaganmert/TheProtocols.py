@@ -1,6 +1,6 @@
 import requests
 from TheProtocols.objects.network import OS, Software
-import hashlib
+from typing import Any
 
 
 class Token:
@@ -23,7 +23,7 @@ class Token:
             self.software = None
             self.version = None
 
-    def init_subclass(self, subclass):
+    def init_subclass(self, subclass) -> Any:
         return type(subclass.__name__, (Token, ), {
             '__session': self.__session,
             '__domain': self.__domain,
@@ -40,17 +40,17 @@ class Token:
             'transfer': subclass.transfer if subclass.overwrite_transfer else self.transfer
         })
 
-    def get_session(self):
+    def get_session(self) -> Any:
         return self.__session
 
-    def get_public_address(self):
+    def get_public_address(self) -> str:
         raise NotImplementedError("This method must be implemented by the subclass.")
 
     def sign(self, d) -> str:
         raise NotImplementedError("This method must be implemented by the subclass.")
 
     @property
-    def balance(self):
+    def balance(self) -> int:
         addr = self.get_public_address()
         resp = requests.post(f'https://{self.__domain}/protocols/token/balance', json={'address': addr})
         if resp.status_code == 200:
@@ -59,7 +59,7 @@ class Token:
             return 0
 
     def transfer(self, to: str = None, amount: int = None, transactions: list[dict] = None) -> bool:
-        d = {
+        dt = {
             'address': self.get_public_address(),
             'signature': None,
             'transactions': []
@@ -68,13 +68,13 @@ class Token:
             for i in transactions:
                 if 'to' not in i or 'amount' not in i:
                     raise AttributeError("All transactions must have a 'to' and 'amount' key.")
-                d['transactions'].append({'from': d['address'], 'to': i['to'], 'amount': i['amount']})
+                dt['transactions'].append({'from': dt['address'], 'to': i['to'], 'amount': i['amount']})
         elif not isinstance(to, str) and not isinstance(amount, int):
-            d['transactions'].append({'from': d['address'], 'to': to, 'amount': amount})
+            dt['transactions'].append({'from': dt['address'], 'to': to, 'amount': amount})
         else:
             raise AttributeError("'transactions' or either 'to' and 'amount' must be provided.")
-        d['signature'] = self.sign(d)
+        dt['signature'] = self.sign(dt)
         return requests.post(
             f'https://{self.__domain}/protocols/token/transfer',
-            json=d
+            json=dt
         ).status_code == 200

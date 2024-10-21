@@ -63,27 +63,27 @@ class Reminders:
     def get_list(self, name: str) -> list[Reminder]:
         return self.__fs[name]
 
-    def toggle_reminder(self, list: str, id: int) -> bool:
-        r = self.id.request('toggle_reminder', list=list, id=id)
+    def toggle_reminder(self, lst: str, id: int) -> bool:
+        r = self.id.request('toggle_reminder', list=lst, id=id)
         if r.status_code == 200:
             self.__init__(self.id)
             return True
         else:
             return False
 
-    def edit_reminder(self, list: str, id: int, **data) -> bool:
-        d = json.loads(self.get_list(list)[id].json())
+    def edit_reminder(self, lst: str, id: int, **data) -> bool:
+        d = json.loads(self.get_list(lst)[id].json())
         for i in data:
             d[i] = data[i]
-        r = self.id.request('edit_reminder', list=list, id=id, data=json.dumps(d))
+        r = self.id.request('edit_reminder', list=lst, id=id, data=json.dumps(d))
         if r.status_code == 200:
             self.__init__(self.id)
             return True
         else:
             return False
 
-    def delete_reminder(self, list: str, id: int) -> bool:
-        r = self.id.request('delete_reminder', list=list, id=id)
+    def delete_reminder(self, lst: str, id: int) -> bool:
+        r = self.id.request('delete_reminder', list=lst, id=id)
         if r.status_code == 200:
             self.__init__(self.id)
             return True
@@ -98,24 +98,24 @@ class Reminders:
         else:
             return False
 
-    def create_reminder(self, list: str, title: str, deadline: str, repeat: str) -> bool:
+    def create_reminder(self, lst: str, title: str, deadline: str, repeat: str) -> bool:
         try:
             datetime.strptime(deadline, '%Y-%m-%d %H:%M')
         except Exception:
             raise ValueError('Deadline is not in correct format')
-        r = self.id.request('create_reminder', list=list, title=title, deadline=deadline, repeat=repeat)
+        r = self.id.request('create_reminder', list=lst, title=title, deadline=deadline, repeat=repeat)
         if r.status_code == 200:
             self.__init__(self.id)
             return True
         else:
             return False
 
-    def create_sub_reminder(self, list: str, reminder: str, title: str, deadline: str) -> bool:
+    def create_sub_reminder(self, lst: str, reminder: str, title: str, deadline: str) -> bool:
         try:
             datetime.strptime(deadline, '%Y-%m-%d %H:%M')
         except Exception:
             raise ValueError('Deadline is not in correct format')
-        r = self.id.request('create_sub_reminder', list=list, reminder=reminder, title=title, deadline=deadline)
+        r = self.id.request('create_sub_reminder', list=lst, reminder=reminder, title=title, deadline=deadline)
         if r.status_code == 200:
             self.__init__(self.id)
             return True

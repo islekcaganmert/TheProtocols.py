@@ -6,19 +6,19 @@ class Thing:
         self._s = s
         self._name = name
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name
     __repr__ = __str__
 
     @property
-    def status(self):
+    def status(self) -> (dict, None):
         resp = self._s.request('get_thing', thing=self._name)
         if resp.status_code == 200:
             return resp.json()
         else:
             return None
 
-    def set_status(self, **kwargs):
+    def set_status(self, **kwargs) -> bool:
         resp = self._s.request('set_thing', thing=self._name, modified=kwargs)
         return resp.status_code == 200
 
@@ -29,10 +29,10 @@ class Room:
         self._s: Session = s
         self._name = name
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"'{self._name}'"
 
     def unregister_thing(self, name: str) -> bool:
@@ -43,7 +43,7 @@ class Room:
         return resp.status_code == 200
 
     @property
-    def things(self):
+    def things(self) -> list[Thing]:
         resp = self._s.request('list_things', room=self._name)
         if resp.status_code == 200:
             return resp.json()
@@ -52,7 +52,7 @@ class Room:
 
 
 class Home:
-    def __init__(self, s):
+    def __init__(self, s) -> None:
         self._s = s
 
     def create_room(self, name: str) -> bool:
@@ -68,7 +68,7 @@ class Home:
         return resp.status_code == 200
 
     @property
-    def rooms(self):
+    def rooms(self) -> list[Room]:
         resp = self._s.request('list_rooms')
         if resp.status_code == 200:
             return [Room(self, self._s, i) for i in resp.json()]
