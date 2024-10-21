@@ -20,8 +20,3 @@ pymake:
 ```bash
 pymake install TheProtocols
 ```
-
-### To-do
-
- - [ ] Cloud Storage
- - [ ] IoT
